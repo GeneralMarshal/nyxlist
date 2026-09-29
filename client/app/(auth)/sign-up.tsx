@@ -1,21 +1,15 @@
 import { ThemedText } from "@/components/themed-text";
-import { useSignIn } from "@clerk/clerk-expo";
-import { useRouter, Link } from "expo-router";
-import { useState } from "react";
-import { View, ScrollView } from "react-native";
-import { Button } from "@/components/ui/button";
-import TextInput from "@/components/ui/text-input";
+import { Link } from "expo-router";
 import { BodyScrollView } from "@/components/ui/BodyScrollView";
+import TextInput from "@/components/ui/text-input";
+import { Button } from "@/components/ui/button";
+import { View } from "react-native";
 
-export default function SignInScreen() {
-  const { signIn, setActive, isLoaded } = useSignIn();
-  const router = useRouter();
 
+export default function SignUpScreen() {
   const [emailAddress, setEmailAddress] = useState("");
   const [password, setPassword] = useState("");
   const [isSigningIn, setIsSigningIn] = useState(false);
-
-  function onSignInPress() {}
 
   return (
     <BodyScrollView contentContainerStyle={{ padding: 16 }}>
