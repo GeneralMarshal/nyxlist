@@ -5,7 +5,11 @@ import { BodyScrollView } from "@/components/ui/BodyScrollView";
 import TextInput from "@/components/ui/text-input";
 import { Button } from "@/components/ui/button";
 import { View } from "react-native";
-import { useSignIn, useSignUp } from "@clerk/clerk-expo";
+import {
+  isClerkAPIResponseError,
+  useSignIn,
+  useSignUp,
+} from "@clerk/clerk-expo";
 import type { ClerkAPIError } from "@clerk/types";
 
 export default function SignUpScreen() {
@@ -32,7 +36,10 @@ export default function SignUpScreen() {
       await signUp.prepareEmailAddressVerification({ strategy: "email_code" });
       setPendingVerification(true);
     } catch (e) {
-      console.log(e);
+      if (isClerkAPIResponseError(e)) {
+        setErrors(e.errors);
+      }
+      console.error(JSON.stringify(e, null, 2));
     } finally {
       setIsLoading(false);
     }
@@ -52,10 +59,13 @@ export default function SignUpScreen() {
         await setActive({ session: signUpAttempt.createdSessionId });
         router.replace("/");
       } else {
-        console.log(signUpAttempt);
+        console.error(JSON.stringify(signUpAttempt, null, 2));
       }
     } catch (e) {
-      console.log(e);
+      if (isClerkAPIResponseError(e)) {
+        setErrors(e.errors);
+      }
+      console.error(JSON.stringify(e, null, 2));
     } finally {
       setIsLoading(false);
     }
@@ -63,7 +73,10 @@ export default function SignUpScreen() {
 
   if (pendingVerification) {
     return (
-      <BodyScrollView contentContainerStyle={{ padding: 16 }}>
+      <BodyScrollView
+        contentContainerStyle={{ padding: 16 }}
+        automaticallyAdjustKeyboardInsets={false}
+      >
         <TextInput
           value={code}
           label={`Enter the verification code we sent to ${emailAddress}`}
@@ -109,11 +122,16 @@ export default function SignUpScreen() {
       >
         Sign In
       </Button>
+      {errors.map((error) => (
+        <ThemedText key={error.longMessage} style={{ color: "red" }}>
+          {error.longMessage}
+        </ThemedText>
+      ))}
 
       <View style={{ marginTop: 16, alignItems: "center" }}>
-        <ThemedText>Do not have an account?</ThemedText>
-        <Button onPress={() => router.push("/sign-up")} variant="ghost">
-          Sign Up
+        <ThemedText>Already have an account?</ThemedText>
+        <Button onPress={() => router.back()} variant="ghost">
+          Sign In
         </Button>
       </View>
       <View style={{ marginTop: 16, alignItems: "center" }}>
