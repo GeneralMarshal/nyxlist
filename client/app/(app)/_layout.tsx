@@ -19,19 +19,16 @@ export default function HomeLayoutScreen() {
           : {
               headerLargeTitle: true,
               headerTransparent: true,
-              headerBackground: () => (
-                <BlurView
-                  intensity={80}
-                  tint="systemChromeMaterial"
-                  style={{ flex: 1 }}
-                />
-              ),
+              headerBlurEffect: "systemChromeMaterial",
               headerLargeTitleShadowVisible: false,
               headerShadowVisible: true,
+              headerLargeStyle: {
+                backgroundColor: "transparent",
+              },
             }),
       }}
     >
-      <Stack.Screen name="index" />
+      <Stack.Screen name="index" options={{ headerTitle: "Shopping Lists" }} />
     </Stack>
   );
 }

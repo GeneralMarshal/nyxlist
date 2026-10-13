@@ -1,15 +1,42 @@
 import { ThemedText } from "@/components/themed-text";
-import { View } from "react-native";
+import { Pressable, View } from "react-native";
 import { useAuth, useClerk } from "@clerk/clerk-expo";
-import { Redirect } from "expo-router";
+import { Redirect, useRouter } from "expo-router";
 import { Button } from "@/components/ui/button";
 import { BodyScrollView } from "@/components/ui/BodyScrollView";
+import { Stack } from "expo-router";
+import { IconSymbol } from "@/components/ui/icon-symbol";
+import { appleBlue } from "@/constants/Colors";
+
 export default function HomeScreen() {
+  const router = useRouter();
   const { signOut } = useClerk();
+
+  const renderHeaderRight = () => {
+    return (
+      <Pressable onPress={() => {}}>
+        <IconSymbol name="plus" color={appleBlue} />
+      </Pressable>
+    )
+
+  }
+  const renderHeaderLeft = () => {
+    return (
+      <Pressable onPress={() => {}}>
+        <IconSymbol name="gear" color={appleBlue} />
+      </Pressable>
+    )
+
+  }
+  
   return (
-    <BodyScrollView contentContainerStyle={{ padding: 16 }}>
-      <ThemedText type="title">Home</ThemedText>
-      <Button onPress={() => signOut()}>Sign Out</Button>
-    </BodyScrollView>
+    <>
+      <Stack.Screen options={{ headerRight: renderHeaderRight, headerLeft: renderHeaderLeft }} />
+      <BodyScrollView contentContainerStyle={{ padding: 16 }}>
+        <ThemedText type="title">Home In</ThemedText>
+        <Button onPress={() => signOut()}>Sign Out</Button>
+      </BodyScrollView>
+    </>
   );
 }
+ 
