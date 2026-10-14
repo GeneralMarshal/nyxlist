@@ -14,7 +14,7 @@ export default function HomeScreen() {
 
   const renderHeaderRight = () => {
     return (
-      <Pressable onPress={() => {}}>
+      <Pressable onPress={() => { router.push("/list/new") }}>
         <IconSymbol name="plus" color={appleBlue} />
       </Pressable>
     )
@@ -22,7 +22,7 @@ export default function HomeScreen() {
   }
   const renderHeaderLeft = () => {
     return (
-      <Pressable onPress={() => {}}>
+      <Pressable onPress={() => { router.push("/profile") }}>
         <IconSymbol name="gear" color={appleBlue} />
       </Pressable>
     )
